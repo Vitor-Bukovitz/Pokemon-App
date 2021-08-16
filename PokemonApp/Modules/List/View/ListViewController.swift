@@ -2,14 +2,16 @@
 //  ListViewController.swift
 //  PokemonApp
 //
-//  Created by PremierSoft on 15/08/21.
-//
 
 import UIKit
 
 protocol ListViewProtocol {
+    /// Variables
     var presenter: ListPresenterProtocol? { get set }
+    
+    /// Called from the presenter to update the view with the pokemon list received from the interactor
     func update(with pokemonList: [Pokemon])
+    /// Called from the presenter to update the view with the error returned from the interactor
     func update(with error: ListFetchError)
 }
 
@@ -19,7 +21,7 @@ class ListViewController: UIViewController, ListViewProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .systemRed
         // Do any additional setup after loading the view.
     }
     

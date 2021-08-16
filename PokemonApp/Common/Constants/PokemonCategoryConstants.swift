@@ -2,8 +2,6 @@
 //  PokemonCategoryConstants.swift
 //  PokemonApp
 //
-//  Created by PremierSoft on 15/08/21.
-//
 
 import Foundation
 

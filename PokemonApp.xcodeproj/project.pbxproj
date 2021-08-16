@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8517158426C9EFD500E92DFD /* ListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517158326C9EFD500E92DFD /* ListInteractorTests.swift */; };
 		8517158726CA20B900E92DFD /* ListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517158626CA20B900E92DFD /* ListPresenterTests.swift */; };
+		8517158D26CA9A6D00E92DFD /* ListRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517158C26CA9A6D00E92DFD /* ListRouterTests.swift */; };
 		85322CB626C988F800BAED01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85322CB526C988F800BAED01 /* AppDelegate.swift */; };
 		85322CBF26C988F900BAED01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85322CBE26C988F900BAED01 /* Assets.xcassets */; };
 		85322CC226C988F900BAED01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85322CC026C988F900BAED01 /* LaunchScreen.storyboard */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		8517158326C9EFD500E92DFD /* ListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInteractorTests.swift; sourceTree = "<group>"; };
 		8517158626CA20B900E92DFD /* ListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenterTests.swift; sourceTree = "<group>"; };
+		8517158C26CA9A6D00E92DFD /* ListRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRouterTests.swift; sourceTree = "<group>"; };
 		85322CB226C988F800BAED01 /* PokemonApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85322CB526C988F800BAED01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85322CBE26C988F900BAED01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -86,6 +88,14 @@
 				8517158626CA20B900E92DFD /* ListPresenterTests.swift */,
 			);
 			path = Presenter;
+			sourceTree = "<group>";
+		};
+		8517158B26CA9A5D00E92DFD /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				8517158C26CA9A6D00E92DFD /* ListRouterTests.swift */,
+			);
+			path = Router;
 			sourceTree = "<group>";
 		};
 		85322CA926C988F800BAED01 = {
@@ -242,6 +252,7 @@
 		85322D1626C9A0E200BAED01 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				8517158B26CA9A5D00E92DFD /* Router */,
 				8517158526CA20AB00E92DFD /* Presenter */,
 				8517158026C9EEA600E92DFD /* Interactor */,
 			);
@@ -372,6 +383,7 @@
 			files = (
 				85322CCD26C988F900BAED01 /* PokemonAppTests.swift in Sources */,
 				8517158426C9EFD500E92DFD /* ListInteractorTests.swift in Sources */,
+				8517158D26CA9A6D00E92DFD /* ListRouterTests.swift in Sources */,
 				8517158726CA20B900E92DFD /* ListPresenterTests.swift in Sources */,
 				85322D1D26C9AE4D00BAED01 /* SessionMock.swift in Sources */,
 			);

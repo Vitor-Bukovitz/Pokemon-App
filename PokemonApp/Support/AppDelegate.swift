@@ -2,8 +2,6 @@
 //  AppDelegate.swift
 //  PokemonApp
 //
-//  Created by PremierSoft on 15/08/21.
-//
 
 import UIKit
 
@@ -14,8 +12,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        let listRouter = ListRouter.start()
+        
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = UINavigationController(rootViewController: UIViewController())
+        
+        window?.rootViewController = listRouter.navigationController
         window?.makeKeyAndVisible()
         
         return true

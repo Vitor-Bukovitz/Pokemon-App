@@ -2,8 +2,6 @@
 //  PokemonAppTests.swift
 //  PokemonAppTests
 //
-//  Created by PremierSoft on 15/08/21.
-//
 
 import XCTest
 @testable import PokemonApp

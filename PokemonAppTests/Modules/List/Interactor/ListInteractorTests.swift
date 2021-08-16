@@ -2,8 +2,6 @@
 //  ListInteractorTests.swift
 //  PokemonAppTests
 //
-//  Created by PremierSoft on 15/08/21.
-//
 
 import XCTest
 @testable import PokemonApp
@@ -38,19 +36,23 @@ class ListInteractorTests: XCTestCase {
     }
     
     func testFetchPokemonListEmpty() {
-        let pokemonList = [Pokemon]()
-        setRequestHandler(data: pokemonArrayToData(pokemonList))
-        let expectation = expectation(description: "Fetching Pokemon List Empty")
-        presenterMock.expectation = expectation
+        // Arrange
+        let localPokemonList = [Pokemon]()
+        setRequestHandler(data: pokemonArrayToData(localPokemonList))
+        presenterMock.expectation = expectation(description: "Fetching Pokemon List Empty")
+        
+        // Act
         listInteractor.fetchPokemonList()
+        
+        // Assert
         waitForExpectations(timeout: 5) { _ in
             let presenterMock = self.presenterMock
             XCTAssert(presenterMock.didFetchPokemonListCount == 1)
             guard let result = presenterMock.interactorDidFetchPokemonListArgsResult.first else {
                 return XCTFail("Should have at least one result")
             }
-            if case .success(let pokemons) = result {
-                XCTAssert(pokemons.isEmpty)
+            if case .success(let pokemonList) = result {
+                XCTAssert(pokemonList.isEmpty)
             } else {
                 XCTFail("Should have returned an empty list")
             }
@@ -58,44 +60,83 @@ class ListInteractorTests: XCTestCase {
     }
     
     func testFetchPokemonListOnePokemon() {
-        let pokemonList = [Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"])]
-        setRequestHandler(data: pokemonArrayToData(pokemonList))
-        let expectation = expectation(description: "Fetching Pokemon List One Pokemon")
-        presenterMock.expectation = expectation
+        // Arrange
+        let localPokemonList = [Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"])]
+        setRequestHandler(data: pokemonArrayToData(localPokemonList))
+        presenterMock.expectation = expectation(description: "Fetching Pokemon List One Pokemon")
+        
+        // Act
         listInteractor.fetchPokemonList()
+        
+        // Assert
         waitForExpectations(timeout: 5) { _ in
             let presenterMock = self.presenterMock
             XCTAssert(presenterMock.didFetchPokemonListCount == 1)
             guard let result = presenterMock.interactorDidFetchPokemonListArgsResult.first else {
                 return XCTFail("Should have at least one result")
             }
-            if case .success(let pokemons) = result {
-                XCTAssert(pokemonList.count == pokemons.count)
-                for index in 0..<pokemons.count {
-                    let apiPokemon = pokemons[index]
-                    let localPokemon = pokemonList[index]
+            if case .success(let pokemonList) = result {
+                XCTAssert(pokemonList.count == localPokemonList.count)
+                for index in 0..<pokemonList.count {
+                    let apiPokemon = pokemonList[index]
+                    let localPokemon = localPokemonList[index]
                     XCTAssert(apiPokemon.id == localPokemon.id)
                     XCTAssert(apiPokemon.image == localPokemon.image)
                     XCTAssert(apiPokemon.name == localPokemon.name)
                     XCTAssert(apiPokemon.num == localPokemon.num)
-                    XCTAssert(localPokemon.types.count == apiPokemon.types.count)
-                    for typeIndex in 0..<localPokemon.types.count {
-                        let apiType = apiPokemon.types[typeIndex]
-                        let localType = localPokemon.types[typeIndex]
-                        XCTAssert(apiType == localType)
-                    }
+                    XCTAssert(localPokemon.types == apiPokemon.types)
                 }
             } else {
                 XCTFail("Should have returned a list of pokemon")
             }
         }
     }
-
-    func testFetchPokemonListInvalidData() {
-        setRequestHandler(data: Data())
-        let expectation = expectation(description: "Fetching Pokemon List Invalid Data")
-        presenterMock.expectation = expectation
+    
+    func testFetchPokemonListTwoPokemon() {
+        // Arrange
+        let localPokemonList = [
+            Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"]),
+            Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"])
+        ]
+        setRequestHandler(data: pokemonArrayToData(localPokemonList))
+        presenterMock.expectation = expectation(description: "Fetching Pokemon List One Pokemon")
+        
+        // Act
         listInteractor.fetchPokemonList()
+        
+        // Assert
+        waitForExpectations(timeout: 5) { _ in
+            let presenterMock = self.presenterMock
+            XCTAssert(presenterMock.didFetchPokemonListCount == 1)
+            guard let result = presenterMock.interactorDidFetchPokemonListArgsResult.first else {
+                return XCTFail("Should have at least one result")
+            }
+            if case .success(let pokemonList) = result {
+                XCTAssert(localPokemonList.count == pokemonList.count)
+                for index in 0..<pokemonList.count {
+                    let apiPokemon = pokemonList[index]
+                    let localPokemon = localPokemonList[index]
+                    XCTAssert(apiPokemon.id == localPokemon.id)
+                    XCTAssert(apiPokemon.image == localPokemon.image)
+                    XCTAssert(apiPokemon.name == localPokemon.name)
+                    XCTAssert(apiPokemon.num == localPokemon.num)
+                    XCTAssert(localPokemon.types == apiPokemon.types)
+                }
+            } else {
+                XCTFail("Should have returned a list of pokemon")
+            }
+        }
+    }
+    
+    func testFetchPokemonListInvalidData() {
+        // Arrange
+        setRequestHandler(data: Data())
+        presenterMock.expectation = expectation(description: "Fetching Pokemon List Invalid Data")
+        
+        // Act
+        listInteractor.fetchPokemonList()
+        
+        // Assert
         waitForExpectations(timeout: 5) { _ in
             let presenterMock = self.presenterMock
             XCTAssert(presenterMock.didFetchPokemonListCount == 1)
@@ -109,13 +150,17 @@ class ListInteractorTests: XCTestCase {
             }
         }
     }
-
+    
     func testFetchPokemonListValidData404StatusCode() {
+        // Arrange
         let pokemonList = [Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"])]
         setRequestHandler(data: pokemonArrayToData(pokemonList), statusCode: 404)
-        let expectation = expectation(description: "Fetching Pokemon List Valid Data 404 but with StatusCode")
-        presenterMock.expectation = expectation
+        presenterMock.expectation = expectation(description: "Fetching Pokemon List Valid Data 404 but with StatusCode")
+        
+        // Act
         listInteractor.fetchPokemonList()
+        
+        // Assert
         waitForExpectations(timeout: 5) { _ in
             let presenterMock = self.presenterMock
             XCTAssert(presenterMock.didFetchPokemonListCount == 1)
@@ -138,8 +183,8 @@ class ListPresenterMock: ListPresenterProtocol {
     
     var expectation: XCTestExpectation?
     
-    var router: ListRouter?
-    var interactor: ListInteractor?
+    var router: ListRouterProtocol?
+    var interactor: ListInteractorProtocol?
     var view: ListViewProtocol?
     
     func interactorDidFetchPokemonList(with result: Result<[Pokemon], ListFetchError>) {
@@ -152,5 +197,13 @@ class ListPresenterMock: ListPresenterProtocol {
         didFetchPokemonListCount = 0
         interactorDidFetchPokemonListArgsResult.removeAll()
         expectation = nil
+    }
+    
+    func fetchPokemonList() {
+        interactor?.fetchPokemonList()
+    }
+    
+    func pushDetailController(with pokemon: Pokemon) {
+        router?.pushDetailController()
     }
 }
