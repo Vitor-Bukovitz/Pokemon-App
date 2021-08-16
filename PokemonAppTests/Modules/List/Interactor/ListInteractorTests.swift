@@ -20,6 +20,7 @@ class ListInteractorTests: XCTestCase {
         return listInteractor
     }()
     
+    
     override func setUp() {
         presenterMock.reset()
     }
@@ -102,7 +103,7 @@ class ListInteractorTests: XCTestCase {
                 return XCTFail("Should have at least one result")
             }
             if case .failure(let error) = result {
-                XCTAssert(error == .invalidData)
+                XCTAssert(error == .failed)
             } else {
                 XCTFail("Should have returned an error type")
             }
@@ -122,7 +123,7 @@ class ListInteractorTests: XCTestCase {
                 return XCTFail("Should have at least one result")
             }
             if case .failure(let error) = result {
-                XCTAssert(error == .invalidData)
+                XCTAssert(error == .failed)
             } else {
                 XCTFail("Should have returned an error type")
             }
@@ -133,7 +134,7 @@ class ListInteractorTests: XCTestCase {
 class ListPresenterMock: ListPresenterProtocol {
     
     var didFetchPokemonListCount = 0
-    var interactorDidFetchPokemonListArgsResult = [Result<[Pokemon], PokemonErrorConstants>]()
+    var interactorDidFetchPokemonListArgsResult = [Result<[Pokemon], ListFetchError>]()
     
     var expectation: XCTestExpectation?
     
@@ -141,7 +142,7 @@ class ListPresenterMock: ListPresenterProtocol {
     var interactor: ListInteractor?
     var view: ListViewProtocol?
     
-    func interactorDidFetchPokemonList(with result: Result<[Pokemon], PokemonErrorConstants>) {
+    func interactorDidFetchPokemonList(with result: Result<[Pokemon], ListFetchError>) {
         didFetchPokemonListCount += 1
         interactorDidFetchPokemonListArgsResult.append(result)
         expectation?.fulfill()

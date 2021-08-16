@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8517157F26C9D2AD00E92DFD /* PokemonErrorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517157E26C9D2AD00E92DFD /* PokemonErrorConstants.swift */; };
 		8517158426C9EFD500E92DFD /* ListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517158326C9EFD500E92DFD /* ListInteractorTests.swift */; };
 		8517158726CA20B900E92DFD /* ListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517158626CA20B900E92DFD /* ListPresenterTests.swift */; };
 		85322CB626C988F800BAED01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85322CB526C988F800BAED01 /* AppDelegate.swift */; };
@@ -35,7 +34,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		8517157E26C9D2AD00E92DFD /* PokemonErrorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonErrorConstants.swift; sourceTree = "<group>"; };
 		8517158326C9EFD500E92DFD /* ListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInteractorTests.swift; sourceTree = "<group>"; };
 		8517158626CA20B900E92DFD /* ListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenterTests.swift; sourceTree = "<group>"; };
 		85322CB226C988F800BAED01 /* PokemonApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -163,7 +161,6 @@
 			children = (
 				85322CF026C990DA00BAED01 /* NetworkConstants.swift */,
 				85322D0926C998A100BAED01 /* PokemonCategoryConstants.swift */,
-				8517157E26C9D2AD00E92DFD /* PokemonErrorConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -361,7 +358,6 @@
 				858E48B226C9C611006188CA /* ListPresenter.swift in Sources */,
 				858E48B026C9C5FF006188CA /* ListInteractor.swift in Sources */,
 				85322D0A26C998A100BAED01 /* PokemonCategoryConstants.swift in Sources */,
-				8517157F26C9D2AD00E92DFD /* PokemonErrorConstants.swift in Sources */,
 				85322CF126C990DA00BAED01 /* NetworkConstants.swift in Sources */,
 				85322D1426C9A02A00BAED01 /* Pokemon.swift in Sources */,
 				85322CB626C988F800BAED01 /* AppDelegate.swift in Sources */,

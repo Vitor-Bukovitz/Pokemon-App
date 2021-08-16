@@ -10,7 +10,7 @@ import UIKit
 protocol ListViewProtocol {
     var presenter: ListPresenterProtocol? { get set }
     func update(with pokemonList: [Pokemon])
-    func update(with error: PokemonErrorConstants)
+    func update(with error: ListFetchError)
 }
 
 class ListViewController: UIViewController, ListViewProtocol {
@@ -28,7 +28,7 @@ class ListViewController: UIViewController, ListViewProtocol {
         
     }
     
-    func update(with error: PokemonErrorConstants) {
+    func update(with error: ListFetchError) {
         
     }
 }

@@ -18,7 +18,7 @@ class ListInteractor: ListInteractorProtocol {
     
     private let session: URLSession
     
-    init(session: URLSession) {
+    init(session: URLSession = .shared) {
         self.session = session
     }
     
@@ -30,7 +30,7 @@ class ListInteractor: ListInteractorProtocol {
             guard let data = data,
                   let response = response as? HTTPURLResponse,
                   response.statusCode == 200 else {
-                self.presenter?.interactorDidFetchPokemonList(with: .failure(.invalidData))
+                self.presenter?.interactorDidFetchPokemonList(with: .failure(.failed))
                 return
             }
             do {
@@ -38,7 +38,7 @@ class ListInteractor: ListInteractorProtocol {
                 let pokemonList = try decoder.decode([Pokemon].self, from: data)
                 self.presenter?.interactorDidFetchPokemonList(with: .success(pokemonList))
             } catch {
-                self.presenter?.interactorDidFetchPokemonList(with: .failure(.invalidData))
+                self.presenter?.interactorDidFetchPokemonList(with: .failure(.failed))
             }
         }.resume()
     }
