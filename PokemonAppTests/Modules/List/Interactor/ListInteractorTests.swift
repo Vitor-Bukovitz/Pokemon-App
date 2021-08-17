@@ -61,7 +61,7 @@ class ListInteractorTests: XCTestCase {
     
     func testFetchPokemonListOnePokemon() {
         // Arrange
-        let localPokemonList = [Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"])]
+        let localPokemonList = [Pokemon(id: 0, name: "Test", num: "0", img: "", type: [.normal])]
         setRequestHandler(data: pokemonArrayToData(localPokemonList))
         presenterMock.expectation = expectation(description: "Fetching Pokemon List One Pokemon")
         
@@ -81,10 +81,10 @@ class ListInteractorTests: XCTestCase {
                     let apiPokemon = pokemonList[index]
                     let localPokemon = localPokemonList[index]
                     XCTAssert(apiPokemon.id == localPokemon.id)
-                    XCTAssert(apiPokemon.image == localPokemon.image)
+                    XCTAssert(apiPokemon.img == localPokemon.img)
                     XCTAssert(apiPokemon.name == localPokemon.name)
                     XCTAssert(apiPokemon.num == localPokemon.num)
-                    XCTAssert(localPokemon.types == apiPokemon.types)
+                    XCTAssert(localPokemon.type == apiPokemon.type)
                 }
             } else {
                 XCTFail("Should have returned a list of pokemon")
@@ -95,8 +95,8 @@ class ListInteractorTests: XCTestCase {
     func testFetchPokemonListTwoPokemon() {
         // Arrange
         let localPokemonList = [
-            Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"]),
-            Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"])
+            Pokemon(id: 0, name: "Test", num: "0", img: "", type: [.normal]),
+            Pokemon(id: 0, name: "Test", num: "0", img: "", type: [.normal])
         ]
         setRequestHandler(data: pokemonArrayToData(localPokemonList))
         presenterMock.expectation = expectation(description: "Fetching Pokemon List One Pokemon")
@@ -117,10 +117,10 @@ class ListInteractorTests: XCTestCase {
                     let apiPokemon = pokemonList[index]
                     let localPokemon = localPokemonList[index]
                     XCTAssert(apiPokemon.id == localPokemon.id)
-                    XCTAssert(apiPokemon.image == localPokemon.image)
+                    XCTAssert(apiPokemon.img == localPokemon.img)
                     XCTAssert(apiPokemon.name == localPokemon.name)
                     XCTAssert(apiPokemon.num == localPokemon.num)
-                    XCTAssert(localPokemon.types == apiPokemon.types)
+                    XCTAssert(localPokemon.type == apiPokemon.type)
                 }
             } else {
                 XCTFail("Should have returned a list of pokemon")
@@ -153,7 +153,7 @@ class ListInteractorTests: XCTestCase {
     
     func testFetchPokemonListValidData404StatusCode() {
         // Arrange
-        let pokemonList = [Pokemon(id: 0, name: "Test", num: "0", image: "", types: ["test"])]
+        let pokemonList = [Pokemon(id: 0, name: "Test", num: "0", img: "", type: [.normal])]
         setRequestHandler(data: pokemonArrayToData(pokemonList), statusCode: 404)
         presenterMock.expectation = expectation(description: "Fetching Pokemon List Valid Data 404 but with StatusCode")
         

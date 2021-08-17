@@ -45,7 +45,7 @@ class ListPresenterTests: XCTestCase {
     
     func testUpdateViewWithOnePokemonInList() {
         // Arrange
-        let localPokemonList = [Pokemon(id: 1, name: "test", num: "", image: "", types: ["test"])]
+        let localPokemonList = [Pokemon(id: 1, name: "test", num: "", img: "", type: [.normal])]
         listViewMock.expectation = expectation(description: "Should update view with one pokemon in list")
         interactorMock.result = .success(localPokemonList)
         
@@ -64,10 +64,10 @@ class ListPresenterTests: XCTestCase {
                 let localPokemon = localPokemonList[index]
                 let apiPokemon = pokemonList[index]
                 XCTAssert(localPokemon.id == apiPokemon.id)
-                XCTAssert(localPokemon.image == apiPokemon.image)
+                XCTAssert(localPokemon.img == apiPokemon.img)
                 XCTAssert(localPokemon.name == apiPokemon.name)
                 XCTAssert(localPokemon.num == apiPokemon.num)
-                XCTAssert(localPokemon.types == apiPokemon.types)
+                XCTAssert(localPokemon.type == apiPokemon.type)
             }
         }
     }
@@ -75,8 +75,8 @@ class ListPresenterTests: XCTestCase {
     func testUpdateViewWithTwoPokemonInList() {
         // Arrange
         let localPokemonList = [
-            Pokemon(id: 1, name: "test", num: "", image: "", types: ["test"]),
-            Pokemon(id: 1, name: "test", num: "", image: "", types: ["test"])
+            Pokemon(id: 1, name: "test", num: "", img: "", type: [.normal]),
+            Pokemon(id: 1, name: "test", num: "", img: "", type: [.normal])
         ]
         listViewMock.expectation = expectation(description: "Should update view with two pokemon in list")
         interactorMock.result = .success(localPokemonList)
@@ -96,18 +96,20 @@ class ListPresenterTests: XCTestCase {
                 let localPokemon = localPokemonList[index]
                 let apiPokemon = pokemonList[index]
                 XCTAssert(localPokemon.id == apiPokemon.id)
-                XCTAssert(localPokemon.image == apiPokemon.image)
+                XCTAssert(localPokemon.img == apiPokemon.img)
                 XCTAssert(localPokemon.name == apiPokemon.name)
                 XCTAssert(localPokemon.num == apiPokemon.num)
-                XCTAssert(localPokemon.types == apiPokemon.types)
+                XCTAssert(localPokemon.type == apiPokemon.type)
             }
         }
     }
     
     func testUpdateViewWithError() {
         // Arrange
+        let listRouterMock = ListRouterMock()
         let localError = ListFetchError.failed
-        listViewMock.expectation = expectation(description: "Should update view with error message")
+        listPresenter.router = listRouterMock
+        listRouterMock.expectation = expectation(description: "Should update view with error message")
         interactorMock.result = .failure(localError)
         
         // Act
@@ -115,12 +117,8 @@ class ListPresenterTests: XCTestCase {
         
         // Assert
         waitForExpectations(timeout: 5) { _ in
-            let listViewMock = self.listViewMock
-            guard let error = listViewMock.updateWithErrorArgs.first else {
-                return XCTFail("Should have returned a failed error")
-            }
-            XCTAssert(listViewMock.didUpdateWithErrorCount == 1)
-            XCTAssert(localError == error)
+            XCTAssert(listRouterMock.didShowAlertControllerCount == 1)
+            XCTAssert(listRouterMock.showAlertControllerArgs.first == localError.rawValue)
         }
     }
     
@@ -141,7 +139,7 @@ class ListPresenterTests: XCTestCase {
         listPresenter.router = listRouterMock
         
         // Act
-        listPresenter.pushDetailController(with: Pokemon(id: 0, name: "", num: "", image: "", types: [""]))
+        listPresenter.pushDetailController(with: Pokemon(id: 0, name: "", num: "", img: "", type: [.normal]))
         
         // Assert
         XCTAssert(listRouterMock.didPushDetailControllerCount == 1)
@@ -152,9 +150,7 @@ class ListPresenterTests: XCTestCase {
 class ListViewMock: ListViewProtocol {
     
     var didUpdateWithPokemonListCount = 0
-    var didUpdateWithErrorCount = 0
     var updateWithPokemonListArgs = [[Pokemon]]()
-    var updateWithErrorArgs = [ListFetchError]()
     
     var expectation: XCTestExpectation?
     
@@ -166,17 +162,9 @@ class ListViewMock: ListViewProtocol {
         expectation?.fulfill()
     }
     
-    func update(with error: ListFetchError) {
-        didUpdateWithErrorCount += 1
-        updateWithErrorArgs.append(error)
-        expectation?.fulfill()
-    }
-    
     func reset() {
         didUpdateWithPokemonListCount = 0
-        didUpdateWithErrorCount = 0
         updateWithPokemonListArgs.removeAll()
-        updateWithErrorArgs.removeAll()
     }
 }
 
@@ -204,6 +192,11 @@ class ListInteractorMock: ListInteractorProtocol {
 class ListRouterMock: ListRouterProtocol {
     
     var didPushDetailControllerCount = 0
+    var didShowAlertControllerCount = 0
+    
+    var showAlertControllerArgs = [String]()
+    
+    var expectation: XCTestExpectation?
     
     var viewController: ListEntryPoint?
     var navigationController: UINavigationController?
@@ -216,7 +209,15 @@ class ListRouterMock: ListRouterProtocol {
         didPushDetailControllerCount += 1
     }
     
+    func showAlertController(title: String, message: String, completion: (() -> Void)?) {
+        didShowAlertControllerCount += 1
+        showAlertControllerArgs.append(message)
+        expectation?.fulfill()
+    }
+    
     func reset() {
         didPushDetailControllerCount = 0
+        didShowAlertControllerCount = 0
+        showAlertControllerArgs.removeAll()
     }
 }

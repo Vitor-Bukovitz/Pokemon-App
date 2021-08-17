@@ -27,7 +27,7 @@ class ListViewController: UIViewController, ListViewProtocol {
         collectionView.contentInset = UIEdgeInsets(top: 24, left: 0, bottom: 0, right: 0)
         collectionView.backgroundView = backgroundView
         collectionView.register(ListCardCell.self, forCellWithReuseIdentifier: ListCardCell.reuseID)
-        collectionView.isHidden = true
+        collectionView.alpha = 0
         return collectionView
     }()
     
@@ -48,19 +48,12 @@ class ListViewController: UIViewController, ListViewProtocol {
         rotation.duration = 4
         rotation.repeatCount = Float.greatestFiniteMagnitude
 
-        loadingImageView.layer.add(rotation, forKey: "myAnimation")
+        loadingImageView.layer.add(rotation, forKey: "rotationAnimation")
         return loadingImageView
     }()
     
-    private let loadingLabel: UILabel = {
-       let loadingLabel = UILabel()
-        loadingLabel.translatesAutoresizingMaskIntoConstraints = false
-        loadingLabel.text = "Loading"
-        loadingLabel.textColor = .primaryColor
-        return loadingLabel
-    }()
-    
     private var pokemonList = [Pokemon]()
+    private var loadingImageViewCenterYConstraint: NSLayoutConstraint?
     
     var presenter: ListPresenterProtocol?
 
@@ -71,12 +64,17 @@ class ListViewController: UIViewController, ListViewProtocol {
     }
     
     func update(with pokemonList: [Pokemon]) {
-        title = "Pokedex"
         self.pokemonList = pokemonList
         collectionView.reloadData()
-        collectionView.isHidden = false
-        loadingLabel.isHidden = true
-        loadingImageView.isHidden = true
+        UIView.animate(withDuration: 0.3) {
+            self.collectionView.alpha = 1
+            self.loadingImageViewCenterYConstraint?.isActive = false
+            self.loadingImageView.topAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+            self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.loadingImageView.isHidden = true
+        }
     }
 }
 
@@ -85,13 +83,14 @@ extension ListViewController {
     
     private func setupView() {
         // UIViewController Setup
+        title = "Pokedex"
         view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.clear]
         
         // Add Views
         view.addSubview(collectionView)
         view.addSubview(loadingImageView)
-        view.addSubview(loadingLabel)
         backgroundView.addSubview(cornerImageView)
         
         // Constraints
@@ -106,14 +105,12 @@ extension ListViewController {
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            loadingImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             loadingImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             loadingImageView.widthAnchor.constraint(equalToConstant: 76),
             loadingImageView.heightAnchor.constraint(equalToConstant: 76),
-            
-            loadingLabel.topAnchor.constraint(equalTo: loadingImageView.bottomAnchor, constant: 4),
-            loadingLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
+        loadingImageViewCenterYConstraint = loadingImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        loadingImageViewCenterYConstraint?.isActive = true
     }
 }
 
@@ -128,6 +125,8 @@ extension ListViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCardCell.reuseID, for: indexPath) as? ListCardCell else {
             return UICollectionViewCell()
         }
+        let pokemon = pokemonList[indexPath.item]
+        cell.setup(for: pokemon)
         return cell
     }
     

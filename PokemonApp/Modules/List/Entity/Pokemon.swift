@@ -10,5 +10,5 @@ struct Pokemon: Codable {
     let name: String
     let num: String
     let img: String
-    let type: [String]
+    let type: [PokemonCategoryConstants]
 }
