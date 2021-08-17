@@ -40,11 +40,16 @@ class ListPresenter: ListPresenterProtocol {
     }
     
     func interactorDidFetchPokemonList(with result: Result<[Pokemon], ListFetchError>) {
-        switch result {
-        case .success(let pokemonList):
-            view?.update(with: pokemonList)
-        case .failure(let error):
-            view?.update(with: error)
+        DispatchQueue.main.async {
+            switch result {
+            case .success(let pokemonList):
+                self.view?.update(with: pokemonList)
+            case .failure(let error):
+                self.router?.showAlertController(title: "Something went wrong", message: error.rawValue, completion: { [weak self] in
+                    guard let self = self else { return }
+                    self.interactor?.fetchPokemonList()
+                })
+            }
         }
     }
 }

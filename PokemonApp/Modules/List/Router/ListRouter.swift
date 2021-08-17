@@ -17,6 +17,8 @@ protocol ListRouterProtocol {
     
     /// Pushes the view to the DetailView
     func pushDetailController()
+    /// Shows AlertController with error
+    func showAlertController(title: String, message: String, completion: (() -> Void)?)
 }
 
 class ListRouter: ListRouterProtocol {
@@ -48,5 +50,13 @@ class ListRouter: ListRouterProtocol {
     
     func pushDetailController() {
         navigationController?.pushViewController(UIViewController(), animated: true)
+    }
+    
+    func showAlertController(title: String, message: String, completion: (() -> Void)?) {
+        let alertControler = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertControler.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+            completion?()
+        }))
+        navigationController?.present(alertControler, animated: true)
     }
 }
