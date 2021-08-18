@@ -7,7 +7,19 @@ import UIKit
 
 extension UIColor {
     
-    static let primaryColor = UIColor(0xF5F5F6)
+    enum Theme {
+        /// Grey
+        static let primaryColor = UIColor(0xF5F5F6)
+        /// White
+        static let backgroundColor = UIColor.white
+    }
+    
+    enum Text {
+        /// Black
+        static let primaryColor = UIColor.black
+        /// White
+        static let secondaryColor = UIColor.white
+    }
 }
 
 // MARK: - Helpers

@@ -66,11 +66,12 @@ class ListViewController: UIViewController, ListViewProtocol {
     func update(with pokemonList: [Pokemon]) {
         self.pokemonList = pokemonList
         collectionView.reloadData()
-        UIView.animate(withDuration: 0.3) {
+        view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.35) {
             self.collectionView.alpha = 1
             self.loadingImageViewCenterYConstraint?.isActive = false
             self.loadingImageView.topAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-            self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+            self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.Text.primaryColor]
             self.view.layoutIfNeeded()
         } completion: { _ in
             self.loadingImageView.isHidden = true
@@ -84,7 +85,7 @@ extension ListViewController {
     private func setupView() {
         // UIViewController Setup
         title = "Pokedex"
-        view.backgroundColor = .white
+        view.backgroundColor = .Theme.backgroundColor
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.clear]
         
@@ -96,9 +97,9 @@ extension ListViewController {
         // Constraints
         NSLayoutConstraint.activate([
             cornerImageView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: -42),
-            cornerImageView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: 52),
-            cornerImageView.widthAnchor.constraint(equalToConstant: 214),
-            cornerImageView.heightAnchor.constraint(equalToConstant: 214),
+            cornerImageView.centerXAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -42),
+            cornerImageView.heightAnchor.constraint(equalTo: cornerImageView.widthAnchor),
+            cornerImageView.widthAnchor.constraint(equalTo: backgroundView.widthAnchor, multiplier: 0.6),
             
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -106,8 +107,8 @@ extension ListViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             loadingImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingImageView.heightAnchor.constraint(equalTo: loadingImageView.widthAnchor),
             loadingImageView.widthAnchor.constraint(equalToConstant: 76),
-            loadingImageView.heightAnchor.constraint(equalToConstant: 76),
         ])
         loadingImageViewCenterYConstraint = loadingImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         loadingImageViewCenterYConstraint?.isActive = true
@@ -122,12 +123,11 @@ extension ListViewController: UICollectionViewDataSource, UICollectionViewDelega
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCardCell.reuseID, for: indexPath) as? ListCardCell else {
-            return UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ListCardCell.reuseID, for: indexPath)
+        if let cell = cell as? ListCardCell {
+            let pokemon = pokemonList[indexPath.item]
+            cell.setup(for: pokemon)
         }
-        let pokemon = pokemonList[indexPath.item]
-        cell.setup(for: pokemon)
         return cell
     }
-    
 }

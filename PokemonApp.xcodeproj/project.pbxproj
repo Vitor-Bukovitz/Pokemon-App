@@ -10,6 +10,9 @@
 		8517158426C9EFD500E92DFD /* ListInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517158326C9EFD500E92DFD /* ListInteractorTests.swift */; };
 		8517158726CA20B900E92DFD /* ListPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517158626CA20B900E92DFD /* ListPresenterTests.swift */; };
 		8517158D26CA9A6D00E92DFD /* ListRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8517158C26CA9A6D00E92DFD /* ListRouterTests.swift */; };
+		851A783026CC70D8006D10CF /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851A782F26CC70D8006D10CF /* UIImageView+Extension.swift */; };
+		851A783226CC7116006D10CF /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851A783126CC7116006D10CF /* ImageCacheManager.swift */; };
+		851A783426CC8A1E006D10CF /* ListOptionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851A783326CC8A1E006D10CF /* ListOptionType.swift */; };
 		85322CB626C988F800BAED01 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85322CB526C988F800BAED01 /* AppDelegate.swift */; };
 		85322CBF26C988F900BAED01 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 85322CBE26C988F900BAED01 /* Assets.xcassets */; };
 		85322CC226C988F900BAED01 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 85322CC026C988F900BAED01 /* LaunchScreen.storyboard */; };
@@ -42,6 +45,9 @@
 		8517158326C9EFD500E92DFD /* ListInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInteractorTests.swift; sourceTree = "<group>"; };
 		8517158626CA20B900E92DFD /* ListPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenterTests.swift; sourceTree = "<group>"; };
 		8517158C26CA9A6D00E92DFD /* ListRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRouterTests.swift; sourceTree = "<group>"; };
+		851A782F26CC70D8006D10CF /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		851A783126CC7116006D10CF /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		851A783326CC8A1E006D10CF /* ListOptionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListOptionType.swift; sourceTree = "<group>"; };
 		85322CB226C988F800BAED01 /* PokemonApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokemonApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		85322CB526C988F800BAED01 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		85322CBE26C988F900BAED01 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -188,6 +194,7 @@
 			children = (
 				85D434E026CB353A0090E672 /* UIImage+Extension.swift */,
 				85D434E626CB3D6D0090E672 /* UIColor+Extension.swift */,
+				851A782F26CC70D8006D10CF /* UIImageView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -214,8 +221,8 @@
 		85322CFA26C997F400BAED01 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				85C922C826CC28B700DDD34D /* Components */,
 				858E48AD26C9C5ED006188CA /* ListViewController.swift */,
-				85D434DE26CB31890090E672 /* ListCardCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -280,6 +287,15 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
+		85C922C826CC28B700DDD34D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				85D434DE26CB31890090E672 /* ListCardCell.swift */,
+				851A783326CC8A1E006D10CF /* ListOptionType.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		85D434DA26CB22920090E672 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +315,7 @@
 			isa = PBXGroup;
 			children = (
 				85D434E426CB37230090E672 /* UIHelper.swift */,
+				851A783126CC7116006D10CF /* ImageCacheManager.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -404,11 +421,14 @@
 			files = (
 				858E48B226C9C611006188CA /* ListPresenter.swift in Sources */,
 				858E48B026C9C5FF006188CA /* ListInteractor.swift in Sources */,
+				851A783026CC70D8006D10CF /* UIImageView+Extension.swift in Sources */,
 				85322D0A26C998A100BAED01 /* PokemonCategoryConstants.swift in Sources */,
 				85D434E726CB3D6D0090E672 /* UIColor+Extension.swift in Sources */,
 				85D434E526CB37230090E672 /* UIHelper.swift in Sources */,
 				85D434DF26CB31890090E672 /* ListCardCell.swift in Sources */,
+				851A783426CC8A1E006D10CF /* ListOptionType.swift in Sources */,
 				85322CF126C990DA00BAED01 /* NetworkConstants.swift in Sources */,
+				851A783226CC7116006D10CF /* ImageCacheManager.swift in Sources */,
 				85322D1426C9A02A00BAED01 /* Pokemon.swift in Sources */,
 				85322CB626C988F800BAED01 /* AppDelegate.swift in Sources */,
 				85D434E126CB353A0090E672 /* UIImage+Extension.swift in Sources */,
@@ -574,7 +594,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = PokemonApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -594,7 +614,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = PokemonApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
