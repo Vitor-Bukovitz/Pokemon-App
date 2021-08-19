@@ -12,18 +12,21 @@ class ImageCacheManager {
     let cache = NSCache<NSString, UIImage>()
     static let shared = ImageCacheManager()
     
-    func downloadImage(with link: String, completion: @escaping ((UIImage?) -> Void) ) {
+    func downloadImage(with link: String, completion: @escaping ((UIImage?) -> Void)) -> URLSessionDataTask? {
         let cacheKey = NSString(string: link)
         if let image = cache.object(forKey: cacheKey) {
-            return completion(image)
+            completion(image)
+            return nil
         }
-        guard let url = URL(string: link) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+        guard let url = URL(string: link) else { return nil }
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self else { return completion(nil) }
             guard let data = data else { return completion(nil) }
             guard let image = UIImage(data: data) else { return completion(nil) }
             self.cache.setObject(image, forKey: cacheKey)
             completion(image)
-        }.resume()
+        }
+        task.resume()
+        return task
     }
 }

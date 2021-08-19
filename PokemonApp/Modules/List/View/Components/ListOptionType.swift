@@ -13,6 +13,7 @@ class ListOptionType: UIView {
         let textLabel = UILabel()
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel.textColor = .Text.secondaryColor
+        textLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
         return textLabel
     }()
 
@@ -31,16 +32,17 @@ extension ListOptionType {
     private func setupView() {
         // View Setup
         backgroundColor = .Theme.backgroundColor.withAlphaComponent(0.3)
+        layer.cornerRadius = 8
         
         // Add Views
         addSubview(textLabel)
         
         // Constraints
         NSLayoutConstraint.activate([
-            textLabel.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-            textLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0),
-            textLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 6),
-            textLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -6),
+            textLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2),
+            textLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -2),
+            textLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8),
+            textLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8),
         ])
     }
 }

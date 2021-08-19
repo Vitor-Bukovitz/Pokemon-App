@@ -47,10 +47,10 @@ class ListCardCell: UICollectionViewCell {
         typeStackView.translatesAutoresizingMaskIntoConstraints = false
         typeStackView.axis = .vertical
         typeStackView.spacing = 6
-        typeStackView.alignment = .leading
-        typeStackView.distribution = .fill
         return typeStackView
     }()
+    
+    var downloadTask: URLSessionDataTask?
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -58,6 +58,7 @@ class ListCardCell: UICollectionViewCell {
     }
     
     override func prepareForReuse() {
+        downloadTask?.cancel()
         pokemonImageView.image = nil
     }
     
@@ -65,7 +66,7 @@ class ListCardCell: UICollectionViewCell {
         contentView.backgroundColor = pokemon.type.first?.getColor()
         titleLabel.text = pokemon.name
         numLabel.text = "#\(pokemon.num)"
-        pokemonImageView.setRemoteImage(with: pokemon.img)
+        downloadTask = pokemonImageView.setRemoteImage(with: pokemon.img)
         addTypesToStackView(pokemon.type)
     }
 }
@@ -99,10 +100,10 @@ extension ListCardCell {
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 6),
             titleLabel.trailingAnchor.constraint(equalTo: numLabel.trailingAnchor, constant: 6),
             
-            typeStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+            typeStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             typeStackView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
             typeStackView.trailingAnchor.constraint(equalTo: pokemonImageView.leadingAnchor),
-//            typeStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            typeStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor),
             
             pokemonImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -6),
             pokemonImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -6),
@@ -114,9 +115,19 @@ extension ListCardCell {
     private func addTypesToStackView(_ types: [PokemonCategoryConstants]) {
         typeStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         for type in types {
+            let view = UIView()
             let listOptionType = ListOptionType()
+            view.addSubview(listOptionType)
             listOptionType.setup(for: type)
-            typeStackView.addArrangedSubview(listOptionType)
+            listOptionType.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                listOptionType.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                listOptionType.topAnchor.constraint(equalTo: view.topAnchor),
+                listOptionType.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
+                listOptionType.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+                listOptionType.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            ])
+            typeStackView.addArrangedSubview(view)
         }
     }
 }
