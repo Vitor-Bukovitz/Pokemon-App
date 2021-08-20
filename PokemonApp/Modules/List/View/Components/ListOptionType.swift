@@ -25,6 +25,20 @@ class ListOptionType: UIView {
     func setup(for type: PokemonCategoryConstants) {
         textLabel.text = type.rawValue
     }
+    
+    func setup(for view: UIView) {
+        // Set constraints mask to false
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        // Set constraint
+        NSLayoutConstraint.activate([
+            leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topAnchor.constraint(equalTo: view.topAnchor),
+            widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
+            trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
+            bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
 }
 
 extension ListOptionType {

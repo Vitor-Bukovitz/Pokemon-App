@@ -24,6 +24,7 @@
 		858E48B026C9C5FF006188CA /* ListInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E48AF26C9C5FF006188CA /* ListInteractor.swift */; };
 		858E48B226C9C611006188CA /* ListPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E48B126C9C611006188CA /* ListPresenter.swift */; };
 		858E48B426C9C626006188CA /* ListRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858E48B326C9C626006188CA /* ListRouter.swift */; };
+		85AA9EFA26CEDE8300D6045B /* UIColorExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85AA9EF926CEDE8300D6045B /* UIColorExtensionTests.swift */; };
 		85D434DD26CB22C40090E672 /* ListViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D434DC26CB22C40090E672 /* ListViewTests.swift */; };
 		85D434DF26CB31890090E672 /* ListCardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D434DE26CB31890090E672 /* ListCardCell.swift */; };
 		85D434E126CB353A0090E672 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D434E026CB353A0090E672 /* UIImage+Extension.swift */; };
@@ -63,6 +64,7 @@
 		858E48AF26C9C5FF006188CA /* ListInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListInteractor.swift; sourceTree = "<group>"; };
 		858E48B126C9C611006188CA /* ListPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListPresenter.swift; sourceTree = "<group>"; };
 		858E48B326C9C626006188CA /* ListRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListRouter.swift; sourceTree = "<group>"; };
+		85AA9EF926CEDE8300D6045B /* UIColorExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensionTests.swift; sourceTree = "<group>"; };
 		85D434DC26CB22C40090E672 /* ListViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewTests.swift; sourceTree = "<group>"; };
 		85D434DE26CB31890090E672 /* ListCardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCardCell.swift; sourceTree = "<group>"; };
 		85D434E026CB353A0090E672 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 		85322CCB26C988F900BAED01 /* PokemonAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				85AA9EF826CEDE5500D6045B /* Support */,
 				85322D1B26C9AE4300BAED01 /* Common */,
 				85322D1526C9A0DE00BAED01 /* Modules */,
 				85322CCE26C988F900BAED01 /* Info.plist */,
@@ -282,9 +285,25 @@
 		85322D1B26C9AE4300BAED01 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				85322D1C26C9AE4D00BAED01 /* SessionMock.swift */,
+				85AA9EF726CEDE4B00D6045B /* Extensions */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		85AA9EF726CEDE4B00D6045B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				85AA9EF926CEDE8300D6045B /* UIColorExtensionTests.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		85AA9EF826CEDE5500D6045B /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				85322D1C26C9AE4D00BAED01 /* SessionMock.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		85C922C826CC28B700DDD34D /* Components */ = {
@@ -442,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8517158426C9EFD500E92DFD /* ListInteractorTests.swift in Sources */,
+				85AA9EFA26CEDE8300D6045B /* UIColorExtensionTests.swift in Sources */,
 				8517158D26CA9A6D00E92DFD /* ListRouterTests.swift in Sources */,
 				85D434DD26CB22C40090E672 /* ListViewTests.swift in Sources */,
 				8517158726CA20B900E92DFD /* ListPresenterTests.swift in Sources */,

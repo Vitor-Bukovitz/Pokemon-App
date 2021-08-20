@@ -8,33 +8,20 @@ import XCTest
 
 class ListPresenterTests: XCTestCase {
     
-    private let listViewMock = ListViewMock()
-    private let interactorMock = ListInteractorMock()
-    lazy private var listPresenter: ListPresenter = {
-        let listPresenter = ListPresenter()
-        listPresenter.view = listViewMock
-        return listPresenter
-    }()
-    
-    override func setUp() {
-        listViewMock.reset()
-        interactorMock.reset()
-        interactorMock.presenter = listPresenter
-        listPresenter.interactor = interactorMock
-    }
-    
     func testUpdateViewWithEmptyPokemonList() {
         // Arrange
         let localPokemonList = [Pokemon]()
+        let listViewMock = ListViewMock()
+        let listInteractorMock = ListInteractorMock()
+        let listPresenter = makeListPresenter(view: listViewMock, interactor: listInteractorMock)
         listViewMock.expectation = expectation(description: "Should update view with empty pokemon list")
-        interactorMock.result = .success(localPokemonList)
+        listInteractorMock.result = .success(localPokemonList)
         
         // Act
         listPresenter.fetchPokemonList()
         
         // Assert
         waitForExpectations(timeout: 5) { _ in
-            let listViewMock = self.listViewMock
             XCTAssert(listViewMock.didUpdateWithPokemonListCount == 1)
             guard let pokemonList = listViewMock.updateWithPokemonListArgs.first else {
                 return XCTFail("Should have returned an empty array")
@@ -46,15 +33,17 @@ class ListPresenterTests: XCTestCase {
     func testUpdateViewWithOnePokemonInList() {
         // Arrange
         let localPokemonList = [Pokemon(id: 1, name: "test", num: "", img: "", type: [.normal])]
+        let listViewMock = ListViewMock()
+        let listInteractorMock = ListInteractorMock()
         listViewMock.expectation = expectation(description: "Should update view with one pokemon in list")
-        interactorMock.result = .success(localPokemonList)
+        let listPresenter = makeListPresenter(view: listViewMock, interactor: listInteractorMock)
+        listInteractorMock.result = .success(localPokemonList)
         
         // Act
         listPresenter.fetchPokemonList()
         
         // Assert
         waitForExpectations(timeout: 5) { _ in
-            let listViewMock = self.listViewMock
             XCTAssert(listViewMock.didUpdateWithPokemonListCount == 1)
             guard let pokemonList = listViewMock.updateWithPokemonListArgs.first else {
                 return XCTFail("Should have returned an array with one pokemon in list")
@@ -78,15 +67,17 @@ class ListPresenterTests: XCTestCase {
             Pokemon(id: 1, name: "test", num: "", img: "", type: [.normal]),
             Pokemon(id: 1, name: "test", num: "", img: "", type: [.normal])
         ]
+        let listViewMock = ListViewMock()
+        let listInteractorMock = ListInteractorMock()
+        let listPresenter = makeListPresenter(view: listViewMock, interactor: listInteractorMock)
         listViewMock.expectation = expectation(description: "Should update view with two pokemon in list")
-        interactorMock.result = .success(localPokemonList)
+        listInteractorMock.result = .success(localPokemonList)
         
         // Act
         listPresenter.fetchPokemonList()
         
         // Assert
         waitForExpectations(timeout: 5) { _ in
-            let listViewMock = self.listViewMock
             XCTAssert(listViewMock.didUpdateWithPokemonListCount == 1)
             guard let pokemonList = listViewMock.updateWithPokemonListArgs.first else {
                 return XCTFail("Should have returned an array with two pokemon in list")
@@ -106,11 +97,12 @@ class ListPresenterTests: XCTestCase {
     
     func testUpdateViewWithError() {
         // Arrange
-        let listRouterMock = ListRouterMock()
         let localError = ListFetchError.failed
-        listPresenter.router = listRouterMock
+        let listRouterMock = ListRouterMock()
+        let listInteractorMock = ListInteractorMock()
+        let listPresenter = makeListPresenter(router: listRouterMock, interactor: listInteractorMock)
         listRouterMock.expectation = expectation(description: "Should update view with error message")
-        interactorMock.result = .failure(localError)
+        listInteractorMock.result = .failure(localError)
         
         // Act
         listPresenter.fetchPokemonList()
@@ -124,25 +116,47 @@ class ListPresenterTests: XCTestCase {
     
     func testInteractorBeingCalled() {
         // Arrange
-        interactorMock.result = .success([])
+        let localPokemonList = [Pokemon]()
+        let listInteractorMock = ListInteractorMock()
+        let listPresenter = makeListPresenter(interactor: listInteractorMock)
+        listInteractorMock.result = .success(localPokemonList)
         
         // Act
         listPresenter.fetchPokemonList()
         
         // Assert
-        XCTAssert(interactorMock.didFetchPokemonListCount == 1)
+        XCTAssert(listInteractorMock.didFetchPokemonListCount == 1)
     }
     
     func testRouterBeingCalled() {
         // Arrange
         let listRouterMock = ListRouterMock()
-        listPresenter.router = listRouterMock
+        let listPresenter = makeListPresenter(router: listRouterMock)
         
         // Act
         listPresenter.pushDetailController(with: Pokemon(id: 0, name: "", num: "", img: "", type: [.normal]))
         
         // Assert
         XCTAssert(listRouterMock.didPushDetailControllerCount == 1)
+    }
+    
+    
+    weak var listPresenterWeak: ListPresenter?
+    
+    override func tearDown() {
+        XCTAssertNil(listPresenterWeak?.view)
+        XCTAssertNotNil(listPresenterWeak?.interactor)
+        XCTAssertNotNil(listPresenterWeak?.router)
+    }
+    
+    func makeListPresenter(view: ListViewMock = ListViewMock(), router: ListRouterMock = ListRouterMock(), interactor: ListInteractorMock = ListInteractorMock()) -> ListPresenter {
+        let listPresenter = ListPresenter()
+        listPresenter.view = view
+        listPresenter.router = router
+        listPresenter.interactor = interactor
+        interactor.presenter = listPresenter
+        listPresenterWeak = listPresenter
+        return listPresenter
     }
 }
 
@@ -161,11 +175,6 @@ class ListViewMock: ListViewProtocol {
         updateWithPokemonListArgs.append(pokemonList)
         expectation?.fulfill()
     }
-    
-    func reset() {
-        didUpdateWithPokemonListCount = 0
-        updateWithPokemonListArgs.removeAll()
-    }
 }
 
 class ListInteractorMock: ListInteractorProtocol {
@@ -181,11 +190,6 @@ class ListInteractorMock: ListInteractorProtocol {
         }
         didFetchPokemonListCount += 1
         presenter?.interactorDidFetchPokemonList(with: result)
-    }
-    
-    func reset() {
-        didFetchPokemonListCount = 0
-        result = nil
     }
 }
 
@@ -213,11 +217,5 @@ class ListRouterMock: ListRouterProtocol {
         didShowAlertControllerCount += 1
         showAlertControllerArgs.append(message)
         expectation?.fulfill()
-    }
-    
-    func reset() {
-        didPushDetailControllerCount = 0
-        didShowAlertControllerCount = 0
-        showAlertControllerArgs.removeAll()
     }
 }

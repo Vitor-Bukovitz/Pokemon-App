@@ -5,7 +5,7 @@
 
 import UIKit
 
-protocol ListViewProtocol {
+protocol ListViewProtocol: AnyObject {
     /// Variables
     var presenter: ListPresenterProtocol? { get set }
     

@@ -10,7 +10,7 @@ enum ListFetchError: String, Error {
     case failed = "The data received from the server is invalid. Please try again later."
 }
 
-protocol ListPresenterProtocol {
+protocol ListPresenterProtocol: AnyObject {
     /// Variables
     var router: ListRouterProtocol? { get set }
     var interactor: ListInteractorProtocol? { get set }
@@ -29,7 +29,7 @@ class ListPresenter: ListPresenterProtocol {
     
     var router: ListRouterProtocol?
     var interactor: ListInteractorProtocol?
-    var view: ListViewProtocol?
+    weak var view: ListViewProtocol?
     
     func fetchPokemonList() {
         interactor?.fetchPokemonList()
@@ -40,9 +40,12 @@ class ListPresenter: ListPresenterProtocol {
     }
     
     func interactorDidFetchPokemonList(with result: Result<[Pokemon], ListFetchError>) {
+        print("ok.....")
         DispatchQueue.main.async {
             switch result {
             case .success(let pokemonList):
+                print(self.view == nil)
+                print("updating view!")
                 self.view?.update(with: pokemonList)
             case .failure(let error):
                 self.router?.showAlertController(title: "Something went wrong", message: error.rawValue, completion: { [weak self] in

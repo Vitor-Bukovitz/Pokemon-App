@@ -119,14 +119,7 @@ extension ListCardCell {
             let listOptionType = ListOptionType()
             view.addSubview(listOptionType)
             listOptionType.setup(for: type)
-            listOptionType.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                listOptionType.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                listOptionType.topAnchor.constraint(equalTo: view.topAnchor),
-                listOptionType.widthAnchor.constraint(greaterThanOrEqualToConstant: 1),
-                listOptionType.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
-                listOptionType.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            ])
+            listOptionType.setup(for: view)
             typeStackView.addArrangedSubview(view)
         }
     }
